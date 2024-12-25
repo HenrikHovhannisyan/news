@@ -1,30 +1,34 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styles from "./styles.module.css";
 
-const Categories = ({ categories, selectedCategory, setSelectedCategory }) => {
-  return (
-    <div className={styles.categories}>
-      <button
-        onClick={() => setSelectedCategory(null)}
-        className={!selectedCategory ? styles.active : styles.item}
-      >
-        All
-      </button>
-      {categories.map((category) => {
-        return (
-          <button
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={
-              selectedCategory === category ? styles.active : styles.item
-            }
-          >
-            {category}
-          </button>
-        );
-      })}
-    </div>
-  );
-};
+const Categories = forwardRef(
+  ({ categories, selectedCategory, setSelectedCategory }, ref) => {
+    return (
+      <div ref={ref} className={styles.categories}>
+        <button
+          onClick={() => setSelectedCategory(null)}
+          className={!selectedCategory ? styles.active : styles.item}
+        >
+          All
+        </button>
+        {categories.map((category) => {
+          return (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={
+                selectedCategory === category ? styles.active : styles.item
+              }
+            >
+              {category}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+);
+
+Categories.displayName = "Categories";
 
 export default Categories;
