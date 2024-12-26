@@ -18,18 +18,15 @@ export const getNews = async (
       category,
       keywords,
     } = params || {};
-    const response = await axios.get<NewsApiResponse>(
-      `${BASE_URL}latest-news`,
-      {
-        params: {
-          apiKey: API_KEY,
-          page_number,
-          page_size,
-          category,
-          keywords,
-        },
-      }
-    );
+    const response = await axios.get<NewsApiResponse>(`${BASE_URL}search`, {
+      params: {
+        apiKey: API_KEY,
+        page_number,
+        page_size,
+        category,
+        keywords,
+      },
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -37,7 +34,7 @@ export const getNews = async (
   }
 };
 
-export const getLatestNewa = async (): Promise<NewsApiResponse> => {
+export const getLatestNews = async (): Promise<NewsApiResponse> => {
   try {
     const response = await axios.get<NewsApiResponse>(
       `${BASE_URL}latest-news`,
