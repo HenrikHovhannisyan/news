@@ -68,5 +68,4 @@ export const getCategories = async (): Promise<CategoriesApiResponse> => {
   }
 };
 
-
 // https://currentsapi.services/en/docs/
