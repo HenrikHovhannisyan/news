@@ -2,18 +2,20 @@ import styles from "./styles.module.css";
 import Categories from "../../components/Categories/Categories";
 import Search from "../../components/Search/Search";
 import Slider from "../Slider/Slider";
-import {  IFilters } from "../../interfaces";
+import { IFilters } from "../../interfaces";
 import { useTheme } from "../../context/ThemeContext";
-import { useGetCategoriesQuery } from "../../store/services/newsAoi";
+import { useGetCategoriesQuery } from "../../store/services/newsApi";
+import { useAppDispatch } from "../../store";
+import { setFilters } from "../../store/slices/newsSlice";
 
 interface Props {
   filters: IFilters;
-  changeFilter: (key: string, value: string | number | null) => void;
 }
 
-const NewsFilters = ({ filters, changeFilter }: Props) => {
+const NewsFilters = ({ filters }: Props) => {
   const { isDark } = useTheme();
   const { data } = useGetCategoriesQuery(null);
+  const dispatch = useAppDispatch();
 
   return (
     <div className={styles.filters}>
@@ -23,7 +25,7 @@ const NewsFilters = ({ filters, changeFilter }: Props) => {
             categories={data.categories}
             selectedCategory={filters.category}
             setSelectedCategory={(category) =>
-              changeFilter("category", category)
+              dispatch(setFilters({ key: "category", value: category }))
             }
           />
         </Slider>
@@ -31,7 +33,9 @@ const NewsFilters = ({ filters, changeFilter }: Props) => {
 
       <Search
         keywords={filters.keywords}
-        setKeywords={(keywords) => changeFilter("keywords", keywords)}
+        setKeywords={(keywords) =>
+          dispatch(setFilters({ key: "keywords", value: keywords }))
+        }
       />
     </div>
   );

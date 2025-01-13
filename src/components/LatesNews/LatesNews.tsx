@@ -1,4 +1,4 @@
-import { useGetLatestNewQuery } from "../../store/services/newsAoi";
+import { useGetLatestNewQuery } from "../../store/services/newsApi";
 import BannersList from "../BannersList/BannersList";
 import styles from "./styles.module.css";
 
