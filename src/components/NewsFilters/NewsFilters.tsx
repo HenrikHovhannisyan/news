@@ -1,11 +1,10 @@
 import styles from "./styles.module.css";
-import { getCategories } from "../../api/apiNews";
 import Categories from "../../components/Categories/Categories";
 import Search from "../../components/Search/Search";
-import { useFetch } from "../../helpers/hooks/useFetch";
 import Slider from "../Slider/Slider";
-import { CategoriesApiResponse, IFilters } from "../../interfaces";
+import {  IFilters } from "../../interfaces";
 import { useTheme } from "../../context/ThemeContext";
+import { useGetCategoriesQuery } from "../../store/services/newsAoi";
 
 interface Props {
   filters: IFilters;
@@ -14,15 +13,14 @@ interface Props {
 
 const NewsFilters = ({ filters, changeFilter }: Props) => {
   const { isDark } = useTheme();
-  const { data: dataCategories } = useFetch<CategoriesApiResponse, null>(
-    getCategories
-  );
+  const { data } = useGetCategoriesQuery(null);
+
   return (
     <div className={styles.filters}>
-      {dataCategories ? (
+      {data ? (
         <Slider isDark={isDark}>
           <Categories
-            categories={dataCategories.categories}
+            categories={data.categories}
             selectedCategory={filters.category}
             setSelectedCategory={(category) =>
               changeFilter("category", category)

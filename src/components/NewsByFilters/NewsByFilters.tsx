@@ -1,13 +1,11 @@
 import styles from "./styles.module.css";
-import { getNews } from "../../api/apiNews";
 import { useDebounce } from "../../helpers/hooks/useDebounce";
 import { PAGE_SIZE, TOTAL_PAGES } from "../../constants/constants";
-import { useFetch } from "../../helpers/hooks/useFetch";
 import { useFilters } from "../../helpers/hooks/useFilters";
 import NewsList from "../../components/NewsList/NewsList";
 import NewsFilters from "../NewsFilters/NewsFilters";
 import PaginationWrapper from "../PaginationWrapper/PaginationWrapper";
-import { NewsApiResponse, ParamsType } from "../../interfaces";
+import { useGetNewQuery } from "../../store/services/newsAoi";
 
 const NewsByFilters = () => {
   const { filters, changeFilter } = useFilters({
@@ -19,7 +17,7 @@ const NewsByFilters = () => {
 
   const debouncedKeywords = useDebounce(filters.keywords, 1500);
 
-  const { data, isLoading } = useFetch<NewsApiResponse, ParamsType>(getNews, {
+  const { data, isLoading } = useGetNewQuery({
     ...filters,
     keywords: debouncedKeywords,
   });
@@ -41,10 +39,7 @@ const NewsByFilters = () => {
   };
   return (
     <section className={styles.section}>
-      <NewsFilters
-        filters={filters}
-        changeFilter={changeFilter}
-      />
+      <NewsFilters filters={filters} changeFilter={changeFilter} />
       <PaginationWrapper
         top
         bottom
